@@ -1,0 +1,23 @@
+﻿services:
+  - type: web
+    name: ertegiland
+    runtime: node
+    rootDir: web-platform
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: OPENAI_IMAGE_MODEL
+        value: gpt-image-1
+      - key: ENABLE_IMAGE_GENERATION
+        value: "true"
+
