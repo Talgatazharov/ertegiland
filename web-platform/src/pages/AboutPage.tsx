@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BookOpen, Sparkles } from "lucide-react";
 import { Badge, PageHeading } from "../components/Common";
 export function AboutPage() {
@@ -18,6 +18,9 @@ export function AboutPage() {
         </p>
       </div>
       <section className="prose">
+        <h2>Ертегінің үш түрі</h2>
+        <p>Қиял-ғажайып, хайуанаттар туралы және шыншыл (тұрмыс-салт) ертегілер. Әр санатта төрт жаңа оқиға бар.</p>
+        <Link className="inline-link" to="/tales">12 ертегіні оқу →</Link>
         <h2>Бұл әлемде не үйренеміз?</h2>
         <ul>
           <li>Қазақ ертегілерінің кейіпкерлерімен цифрлық ортада танысамыз.</li>
@@ -30,7 +33,7 @@ export function AboutPage() {
         <Badge traditional />
         <p>
           Бұл белгі кейіпкерлердің жалпы сипаты туралы таныстыруда көрсетіледі.
-          Толық түпнұсқа ертегі мәтіні берілмеген.
+          Кейіпкерлер мен жинақтағы 12 ертегі жобаға арнап жасалған. Олар халық ертегілерінің түпнұсқасы емес.
         </p>
         <Badge />
         <p>

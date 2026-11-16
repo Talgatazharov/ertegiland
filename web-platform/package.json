@@ -9,7 +9,7 @@
     "start": "tsx server/index.ts",
     "preview": "vite preview",
     "test": "tsx --test tests/*.test.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test journeys.spec.ts profiles.spec.ts layout.spec.ts && playwright test tales.spec.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.0",

@@ -7,6 +7,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getCharacter, places, problems, moods } from "../src/data/characters";
 import { quizzes } from "../src/data/quizzes";
+import { getTale } from "../src/data/tales";
+import { selectedTalePrompt } from "../src/services/talePrompt";
 import {
   characterIds,
   choiceSchema,
@@ -26,8 +28,11 @@ import {
 const app = express();
 app.disable("x-powered-by");
 if (process.env.RENDER === "true") app.set("trust proxy", 1);
-app.get("/healthz", (_req, res) => res.json({status: "ok"}));
-app.use("/api", (_req, res, next) => { res.setHeader("Cache-Control", "no-store"); next(); });
+app.get("/healthz", (_req, res) => res.json({ status: "ok" }));
+app.use("/api", (_req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
 app.use(express.json({ limit: "160kb" }));
 const serverClient = process.env.OPENAI_API_KEY
   ? new OpenAI({
@@ -89,6 +94,10 @@ const continueInput = z
       ?.choices.some((c) => c.id === v.choice.id && c.text === v.choice.text),
   );
 const storyInput = z.object({
+  taleId: z
+    .string()
+    .refine((value) => !!getTale(value))
+    .optional(),
   characterId: id,
   place: z.enum(places as [string, ...string[]]),
   problem: z.enum(problems as [string, ...string[]]),
@@ -138,7 +147,8 @@ app.post("/api/ai/:action", async (req, res) => {
       const p = chatInput.parse(req.body);
       data = client
         ? (
-            await structured(client, 
+            await structured(
+              client,
               z.object({ answer: z.string().min(1).max(6000) }),
               characterPrompt(
                 p.characterId,
@@ -153,7 +163,8 @@ app.post("/api/ai/:action", async (req, res) => {
       const currentChapter = p.session.currentChapter + 1;
       if (!client) data = demoContinue(p.session, p.choice);
       else {
-        const raw = await structured(client, 
+        const raw = await structured(
+          client,
           chapterOutputSchema,
           continuationPrompt(p.session),
           {
@@ -172,20 +183,24 @@ app.post("/api/ai/:action", async (req, res) => {
     } else if (action === "story") {
       const p = storyInput.parse(req.body);
       data = client
-        ? await structured(client, 
+        ? await structured(
+            client,
             generatedSchema,
-            characterPrompt(
-              p.characterId,
-              storyQuality +
-                " Үш бөлімнен тұратын тұтас ертегі жаса: кіріспе, шиеленіс пен шешім. Әр бөлімде табиғи диалог болсын. Мекен, мәселе және көңіл күйі нақты көрінсін. Соңында ой түйетін қорытынды бер.",
-            ),
+            p.taleId
+              ? safetyPrompt + "\n" + selectedTalePrompt(p.taleId)
+              : characterPrompt(
+                  p.characterId,
+                  storyQuality +
+                    " Үш бөлімнен тұратын тұтас ертегі жаса: кіріспе, шиеленіс пен шешім. Әр бөлімде табиғи диалог болсын. Мекен, мәселе және көңіл күйі нақты көрінсін. Соңында ой түйетін қорытынды бер.",
+                ),
             p,
           )
         : demoStory(p);
     } else if (action === "quiz") {
       const p = quizInput.parse(req.body);
       data = client
-        ? await structured(client, 
+        ? await structured(
+            client,
             quizSchema,
             characterPrompt(
               p.characterId,
@@ -198,7 +213,8 @@ app.post("/api/ai/:action", async (req, res) => {
       const p = titleInput.parse(req.body);
       data = client
         ? (
-            await structured(client, 
+            await structured(
+              client,
               z.object({ title: z.string().min(1).max(160) }),
               safetyPrompt +
                 " Оқиға мазмұнына сай қысқа көркем қазақша атау бер.",
@@ -267,12 +283,15 @@ app.use(
       .json({ error: "invalid_json" });
   },
 );
-app.listen(Number(process.env.PORT) || 3001, process.env.HOST || "0.0.0.0", () =>
-  console.log(
-    "ErtegiLand v2: http://127.0.0.1:" +
-      (process.env.PORT || 3001) +
-      " (" +
-      (serverClient ? "AI" : "demo") +
-      ")",
-  ),
+app.listen(
+  Number(process.env.PORT) || 3001,
+  process.env.HOST || "0.0.0.0",
+  () =>
+    console.log(
+      "ErtegiLand v2: http://127.0.0.1:" +
+        (process.env.PORT || 3001) +
+        " (" +
+        (serverClient ? "AI" : "demo") +
+        ")",
+    ),
 );

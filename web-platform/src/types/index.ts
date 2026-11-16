@@ -1,4 +1,4 @@
-﻿import { z } from "zod";
+import { z } from "zod";
 export const characterIds = [
   "aldar",
   "tostik",
@@ -129,6 +129,7 @@ export const generatedSchema = z.object({
 export type GeneratedStory = z.infer<typeof generatedSchema>;
 export type Story = GeneratedStory;
 export const bookSchema = z.object({
+  taleId: z.string().optional(),
   title: z.string().min(1).max(160),
   chapters: z.array(bookChapterSchema).min(1).max(7),
   moral: z.string().min(1).max(1000),
@@ -155,6 +156,7 @@ export interface ChatMessage {
   source?: Source;
 }
 export interface StoryOptions {
+  taleId?: string;
   characterId: CharacterId;
   place: string;
   problem: string;

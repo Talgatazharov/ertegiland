@@ -1,8 +1,9 @@
-﻿import { Component, Suspense, lazy, type ReactNode } from "react";
+import { Component, Suspense, lazy, type ReactNode } from "react";
 import { Loading } from "./components/Common";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
+import { TalesPage } from "./pages/TalesPage";
 import { CharactersPage, CharacterDetailPage } from "./pages/CharactersPage";
 const CharacterChatPage = lazy(() =>
   import("./pages/CharacterChatPage").then((module) => ({
@@ -66,6 +67,8 @@ function Views() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
+        <Route path="tales" element={<TalesPage />} />
+        <Route path="tales/:id" element={<TalesPage />} />
         <Route path="characters" element={<CharactersPage />} />
         <Route path="characters/:id" element={<CharacterDetailPage />} />
         <Route

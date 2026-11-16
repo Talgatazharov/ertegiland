@@ -1,4 +1,4 @@
-﻿import type { CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, MessageCircle, Sparkles, BookOpen } from "lucide-react";
 import { characters, getCharacter } from "../data/characters";
@@ -24,7 +24,7 @@ export function CharactersPage() {
           <Badge traditional />
           <h2>Ертегіні таны, қиялды ажырат</h2>
           <p>
-            Кейіпкерлердің қысқаша сипаттамалары әдеби бейнені таныстырады.
+            Кейіпкерлер — осы жобаға арнап жасалған жаңа әдеби бейнелер.
             Берілген суреттер — көркем интерпретациялар.
           </p>
           <Badge />

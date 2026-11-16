@@ -1,4 +1,4 @@
-﻿import { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import {
   BookOpen,
@@ -12,6 +12,7 @@ import { Badge, Empty, ErrorNotice, Loading } from "../components/Common";
 import { Portrait } from "../components/Portrait";
 import { SceneArt } from "../components/SceneArt";
 import { getCharacter } from "../data/characters";
+import { getTale } from "../data/tales";
 import { storage } from "../services/storageService";
 import { generateStory, generateStoryTitle } from "../services/aiService";
 import { generateStoryIllustration } from "../services/imageService";
@@ -85,6 +86,7 @@ export function StoryResultPage() {
       </div>
     );
   const c = getCharacter(book.characterId);
+  const tale = getTale(book.taleId);
   return (
     <div className="page container book-page">
       <div className="book-toolbar">
@@ -116,9 +118,9 @@ export function StoryResultPage() {
           <BookOpen size={34} />
           <h1>{book.title}</h1>
           {book.titleSource && <Badge source={book.titleSource} kind="title" />}
-          <p>{c.name}</p>
+          <p>{tale?.hero ?? c.name}</p>
           <div className="book-character">
-            <Portrait character={c} priority />
+            {tale ? <BookOpen size={96} aria-hidden="true" /> : <Portrait character={c} priority />}
           </div>
           <div className="book-author">
             Автор: <strong>Жас зерттеуші</strong>

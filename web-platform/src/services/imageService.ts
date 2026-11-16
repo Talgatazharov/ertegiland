@@ -1,13 +1,14 @@
-﻿import { z } from "zod";
+import { z } from "zod";
 import { requestAI } from "./aiService";
 import { getCharacter } from "../data/characters";
+import { getTale } from "../data/tales";
 import type { SavedBook } from "../types";
 export const generateIllustrationPrompt = (book: SavedBook) =>
   "Балалар кітабына арналған жылы, қауіпсіз иллюстрация. Кейіпкер: " +
-  getCharacter(book.characterId).name +
+  (getTale(book.taleId)?.hero ?? getCharacter(book.characterId).name) +
   ". Оқиға орны мен қысқаша мазмұны: " +
   book.chapters[0].text.slice(0, 1200) +
-  ". Қазақ даласының табиғаты мен ұлттық киімдер. Жазусыз.";
+  ". Оқиғаның жанры мен кейіпкерлеріне сай орта. Жазусыз.";
 export const generateStoryIllustration = (book: SavedBook) =>
   requestAI(
     "image",

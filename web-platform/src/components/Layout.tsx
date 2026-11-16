@@ -5,6 +5,7 @@ import { BookOpen, Menu, X, Sparkles } from "lucide-react";
 import { hasStorageWarning } from "../services/storageService";
 const nav = [
   ["/", "Басты бет"],
+  ["/tales", "Ертегілер"],
   ["/characters", "Кейіпкерлер"],
   ["/story", "Ертегіні жалғастыр"],
   ["/create", "Ертегі құрастыр"],

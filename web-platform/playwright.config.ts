@@ -1,7 +1,12 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/browser",
-  testMatch: ["**/journeys.spec.ts", "**/profiles.spec.ts", "**/layout.spec.ts"],
+  testMatch: [
+    "**/journeys.spec.ts",
+    "**/profiles.spec.ts",
+    "**/layout.spec.ts",
+    "**/tales.spec.ts",
+  ],
   use: {
     baseURL: "http://127.0.0.1:5174",
     browserName: "chromium",

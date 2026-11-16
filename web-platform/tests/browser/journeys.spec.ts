@@ -11,8 +11,10 @@ test("home, character, chat, six-step story, saved book and deletion", async ({
   await page
     .getByRole("link", { name: "Ертегі әлеміне кіру", exact: true })
     .click();
+  await expect(page.locator(".tale-category")).toHaveCount(3);
+  await page.getByRole("navigation").getByRole("link", { name: "Кейіпкерлер", exact: true }).click();
   await page
-    .getByRole("link", { name: /Алдар Көсе: кейіпкерді таңдау/ })
+    .getByRole("link", { name: /Дәурен: кейіпкерді таңдау/ })
     .click();
   await page.getByRole("link", { name: /Кейіпкермен сөйлесу/ }).click();
   await page

@@ -1,8 +1,9 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BookOpen, Plus, Trash2 } from "lucide-react";
 import { achievements } from "../data/quizzes";
 import { getCharacter } from "../data/characters";
+import { getTale } from "../data/tales";
 import { storage } from "../services/storageService";
 import { Badge, Empty, PageHeading } from "../components/Common";
 export function LibraryPage() {
@@ -48,7 +49,9 @@ export function LibraryPage() {
                 <img
                   src={
                     book.illustration ??
-                    getCharacter(book.characterId).image ??
+                    (book.taleId
+                      ? "/storybook.svg"
+                      : getCharacter(book.characterId).image) ??
                     "/storybook.svg"
                   }
                   alt={book.title}
@@ -59,7 +62,10 @@ export function LibraryPage() {
                 <div className="library-book-copy">
                   <Badge source={book.source} />
                   <h3>{book.title}</h3>
-                  <p>{getCharacter(book.characterId).name}</p>
+                  <p>
+                    {getTale(book.taleId)?.hero ??
+                      getCharacter(book.characterId).name}
+                  </p>
                   <span className="card-link">Кітапты оқу →</span>
                 </div>
               </Link>

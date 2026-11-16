@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   ArrowDown,
   ArrowRight,
@@ -12,6 +12,7 @@ import {
 import { characters, getCharacter } from "../data/characters";
 import { CharacterCard } from "../components/CharacterCard";
 import { Portrait } from "../components/Portrait";
+import { TaleCatalog } from "./TalesPage";
 const steps = [
   { icon: BookOpen, title: "Кейіпкерді таңда", text: "Өз серігіңді тап" },
   { icon: MessageCircle, title: "Танысып, сөйлес", text: "Оның мінезін біл" },
@@ -52,21 +53,21 @@ export function HomePage() {
             <strong>Өз ертегіңді жаса.</strong>
           </p>
           <div className="hero-actions">
-            <Link className="button gold" to="/characters">
+            <Link className="button gold" to="/tales">
               <Sparkles size={19} /> Ертегі әлеміне кіру{" "}
               <ArrowRight size={18} />
             </Link>
-            <a className="button ghost" href="#characters">
-              <BookOpen size={18} /> Кейіпкерлерді көру
+            <a className="button ghost" href="#tales">
+              <BookOpen size={18} /> Ертегі түрлерін көру
             </a>
           </div>
           <div className="hero-stats">
             <span>
-              <b>09</b> дара кейіпкер
+              <b>03</b> ертегі түрі
             </span>
             <i>✧</i>
             <span>
-              <b>06</b> оқиға кезеңі
+              <b>12</b> жаңа ертегі
             </span>
             <i>✧</i>
             <span>
@@ -105,6 +106,7 @@ export function HomePage() {
           <ArrowDown size={17} /> Ертегіге алғашқы қадам
         </a>
       </section>
+      <TaleCatalog />
       <section className="section characters-section" id="characters">
         <div className="section-heading">
           <div>
