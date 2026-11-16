@@ -9,6 +9,7 @@ const mapping = {
   "Maqta_qyz.png": "makta-kyz",
   "Qozhanasyr.png": "kozhanasyr",
   "Qanbaq_shal.png": "kanbak-shal",
+  "Nurai.png": "nurai",
 };
 await mkdir("public/characters", { recursive: true });
 const manifest = [];

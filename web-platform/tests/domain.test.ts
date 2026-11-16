@@ -93,15 +93,15 @@ test("all profiles, greetings, chat voices, openings and prompts are distinct", 
     assert.ok(continuationPrompt(createSession(c.id)).includes("2/6"));
   }
 });
-test("eight supplied images exist in two optimized sizes without inventing Kende bai image", async () => {
+test("all nine portraits exist in two optimized sizes including Nurai's new image", async () => {
   const manifest = JSON.parse(
     await readFile("assets/characters-manifest.json", "utf8"),
   );
-  assert.equal(manifest.length, 8);
+  assert.equal(manifest.length, 9);
   for (const c of characters) {
     if (c.id === "kendebai") {
-      assert.equal(c.image, null);
-      continue;
+      assert.equal(c.imageSlug, "nurai");
+      assert.ok(c.imageCredit.includes("ImageGen"));
     }
     assert.ok(c.image);
     for (const size of [480, 960]) {

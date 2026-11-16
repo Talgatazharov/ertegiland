@@ -23,14 +23,13 @@ test("all nine profiles have working detail chat and story routes with distinct 
     await page.goto("/characters/" + id);
     await expect(page.locator(".cinematic-detail h1")).toBeVisible();
     const img = page.locator(".detail-portrait img");
-    if (id !== "kendebai") {
-      await expect
-        .poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth))
-        .toBeGreaterThan(0);
-    } else
-      await expect(page.locator(".detail-image-caption")).toContainText(
-        "Архивте суреті жоқ",
-      );
+    await expect
+      .poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth))
+      .toBeGreaterThan(0);
+    if (id === "kendebai") {
+      await expect(img).toHaveAttribute("src", "/characters/nurai-960.webp");
+      await expect(img).toHaveAttribute("alt", "Нұрай — көркем бейне");
+    }
     await page
       .getByRole("link", { name: "Кейіпкермен сөйлесу", exact: true })
       .click();

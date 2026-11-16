@@ -9,9 +9,11 @@ function profile(seed: ProfileSeed): CharacterProfile {
     image: seed.imageSlug
       ? "/characters/" + seed.imageSlug + "-960.webp"
       : null,
-    imageCredit: seed.imageSlug
-      ? "Persony.zip — пайдаланушы ұсынған көркем бейне"
-      : "Жобаның бұрынғы көркем бейнесі. Архивте Нұрай суреті жоқ.",
+    imageCredit: seed.imageSlug === "nurai"
+      ? "Нұрай — жобаға арнап ImageGen көмегімен жасалған жаңа қыз кейіпкерінің бейнесі"
+      : seed.imageSlug
+        ? "Persony.zip — пайдаланушы ұсынған көркем бейне"
+        : "Кейіпкердің көркем бейнесі",
     aiSystemPrompt: [
       "Сен " +
         seed.name +
@@ -141,7 +143,7 @@ export const characters: CharacterProfile[] = [
   profile({
     id: "kendebai",
     name: "Нұрай",
-    imageSlug: null,
+    imageSlug: "nurai",
     color: "emerald",
     accent: "#62aa89",
     shortDescription: "Күшін қамқорлыққа жұмсайтын батыр",
